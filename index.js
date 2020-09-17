@@ -1,28 +1,35 @@
+
+
 $(document).ready(() => {
   const $body = $('body');
   $body.html('');
 
-
+  console.log(moment())
+//array to push used tweets into
   let usedTweets = [];
-
+//contain all the tweets in the stream
   const allTweets = streams.home
-//et count = 0
 
 
+//tweets to first map and put on the page
   const $tweets = streams.home.map((tweet) => {
     usedTweets.push(tweet)
     const $tweet = $('<div></div>');
+  //const date = moment().format('hh:mm:ss') 
     const text = `@${tweet.user}: ${tweet.message}`
-    const date = moment().format('h:mm:ss a');
-    // Saturday, June 9th, 2007, 5:46:21 PM
-    $tweet.text(text).text(date)
+   
+    // const today = new Date()
+    // const postTime = today.getDay()+' at '+ today.getHours() + ':' + today.getMinutes();
+    // // Saturday, June 9th, 2007, 5:46:21 PM
+    $tweet.text(text)
+       
   
-    return $tweet;
+    return $tweet
   
   });
 
 
-//create a main section with the id section-main
+//create a main section with the id section-main order newsfeed and first tweets
 const $newsfeed = $('<section>').attr('id', 'newsfeed');
 $body.append($newsfeed)
 $newsfeed.append($tweets)
@@ -43,32 +50,26 @@ $('<button/>')
   .css('background-color', 'black')
   .prependTo('#nav');
 
-
+//function to show all tweets that are not shown yet
  function showNewTweets() {
  
-  //filter tweets that already exist and creat a div with formatted tweets on hold 
+  //filter tweets that already exist and create a div with formatted tweets on hold 
     allTweets.filter((tweet) => {
     if(!usedTweets.includes(tweet)){ 
       usedTweets.push(tweet);
       const $tweet = $('<div></div>');
       const text = `@${tweet.user}: ${tweet.message}`
-      //const date = moment().format("dddd, MMMM Do, h:mm A");
-      // Saturday, June 9th, 2007, 5:46:21 PM
-      $tweet.text(text) //.append(date)
+      
+      $tweet.text(text)
       $tweet.prependTo('#newsfeed')
       return $tweet;
     }
   });
 
 }
-  //console.log(allTweets)
+
 //Button function
 $("#refresh-button").on('click', showNewTweets) 
-
-// function showNewTweets() {
-//   $newTweets.appendTo('#newsfeed')
-
-// }
 
 
 
