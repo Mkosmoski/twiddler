@@ -31,8 +31,11 @@ $(document).ready(() => {
    // $('.tweet-user').on('click', (event)=> console.log('hi user')) 
  
 //create a main section with the id section-main order newsfeed and first tweets
+const $content = $('<section>').attr('id', 'all-content').css('margin', '7px')
 const $newsfeed = $('<section>').attr('id', 'newsfeed');
-$body.append($newsfeed)
+$body
+  .append($content)
+
 $newsfeed
   .append($tweets)
   .css('padding-top', '20px')
@@ -41,6 +44,7 @@ $newsfeed
   .css('background-color', 'silver')
   .css('border-radius', '20px')
   .css('border', 'dotted')
+  .appendTo($content)
 
 //header
 const $header = $('<section>').attr('id', 'header').addClass('header');
@@ -51,8 +55,8 @@ $header
   .css('background-color', 'Black')
   .css('text-align', 'center')
   .css('border-radius', '20px')
-  .css('padding-top', '30px')
-  .css('padding-bottom', '30px')
+  .css('padding-top', '20px')
+  .css('padding-bottom', '20px')
   .prependTo($body);
 
   //sidebar for user tweets(hidden when not looking at specific userfeeds)
@@ -60,7 +64,14 @@ $header
 
 
 $userSidebar
-  .appendTo($body)
+  .prependTo('#all-content')
+  .css('background-color', 'black')
+  .css('height', '100%') /* Full-height: remove this if you want "auto" height */
+  .css('width', "300px") 
+  .css("position", "fixed") 
+  .css('border-radius', '20px')
+  .css('border', 'transparent')
+  .css("right", '0')
   .hide()
 
 // Show the user new tweets somehow.- create a button that displays new tweets.
@@ -88,6 +99,7 @@ $('<button/>')
   .text('Give us Your Two Bits')
   .css('color', 'pink')
   .css('background-color', 'black')
+  .css('border', 'dotted', 'white')
   .prependTo('#nav');
 
 //function to show all tweets that are not shown yet
@@ -128,10 +140,10 @@ function userFeed(event) {
   const user = $(this).text(); 
   //empty content of user-feed
   $('#user-feed').empty()
- // exit button if I want it const $exitButton = $('<button/>').attr('id', 'GB-button').text('Back to Homefeed').css('color', 'pink').css('background-color', 'black')
-
-  const $userheading = $('<h1>').text(`${user}'s Two Bits`).css('color', 'limegreen').css('font-family', 'monospace');
-  $('#user-feed').append($userheading)
+  
+  const $exitButton = $('<button/>').attr('id', 'GB-button').text('Back to Homefeed').css('color', 'pink').css('background-color', 'black')
+  const $userheading = $('<h1>').text(`${user}'s Two Bits`).css('color', 'limegreen').css('font-family', 'monospace').css('padding', '7px').css('text-align', 'center');
+  $('#user-feed').append($userheading).append($exitButton)
   
   usedTweets.filter((tweet) => {
     if(tweet.user = user){ 
@@ -148,6 +160,13 @@ function userFeed(event) {
   });
   
   $userSidebar.toggle(1000)
+  $exitButton.on('click', ()=> $userSidebar.toggle(1000))
 }
 
 });
+
+//form to submit your tweet
+
+
+
+
