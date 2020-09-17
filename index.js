@@ -19,10 +19,10 @@ $(document).ready(() => {
     const timeStamp = new Date
     
     
-    $tweet.html(`<div class = 'tweet-user' > @${tweet.user}: </div> ${tweet.message} <br/> <BLOCKQUOTE>  ... ${moment(timeStamp).fromNow()} </BLOCKQUOTE>`)
+    $tweet.html(`<div class = 'tweet-user' > @${tweet.user} </div> ${tweet.message} <br/> <sub>  ... ${moment(timeStamp).fromNow()} </sub>`)
     //make the tweets fun! - random colors and css
     const randomColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
-    $tweet.css("background-color",randomColor).css('border-radius', '10px').css('padding-left', '7px')
+    $tweet.css("background-color",randomColor).css('border-radius', '10px').css('padding-left', '7px').css('margin', '10px')
    
     return $tweet
   
@@ -42,6 +42,27 @@ $newsfeed
   .css('border-radius', '20px')
   .css('border', 'dotted')
 
+//header
+const $header = $('<section>').attr('id', 'header').addClass('header');
+const $heading = $('<h1>').text('My Two Bits').css('color', 'limegreen').css('font-family', 'monospace');
+
+$header
+  .append($heading)
+  .css('background-color', 'Black')
+  .css('text-align', 'center')
+  .css('border-radius', '20px')
+  .css('padding-top', '30px')
+  .css('padding-bottom', '30px')
+  .prependTo($body);
+
+  //sidebar for user tweets(hidden when not looking at specific userfeeds)
+  const $userSidebar = $('<div>').attr('id','user-feed').addClass('user-feed')
+
+
+$userSidebar
+  .appendTo($body)
+  .hide()
+
 // Show the user new tweets somehow.- create a button that displays new tweets.
 //attach the tweets to the main section
 
@@ -51,7 +72,7 @@ $('<section>')
   .addClass('nav-bar')
   .css('padding-top', '10px')
   .css('padding-bottom', '10px')
-  .prependTo($body);
+  .appendTo($header);
 //add the button!
 $('<button/>')
   .attr('id', 'refresh-button')
@@ -78,10 +99,10 @@ $('<button/>')
       const $tweet = $('<div></div>');
       const timeStamp = new Date
       
-      $tweet.html(`<a> @${tweet.user} </a> : ${tweet.message} <br/> <BLOCKQUOTE>  ... ${moment(timeStamp).fromNow()} </BLOCKQUOTE>`)
+      $tweet.html(`<div class = 'tweet-user' > @${tweet.user} </div> ${tweet.message} <br/> <sub>  ... ${moment(timeStamp).fromNow()} </sub>`)
       var randomColors = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
 
-      $tweet.prependTo('#newsfeed').css("background-color",randomColors).css('border-radius', '10px')
+      $tweet.prependTo('#newsfeed').css("background-color",randomColors).css('border-radius', '10px').css('padding-left', '7px').css('margin', '10px')
 
       return $tweet;
     }
@@ -95,40 +116,38 @@ $("#refresh-button").on('click', showNewTweets)
 //button function to write your own tweet
 $("#twoBit-button").on('click', showNewTweets)
 
-$('.tweet-user').on('click', (event)=> console.log('hi user')) 
+//function to get userfeed
+$('.tweet-user').on('click', userFeed) 
 
-//header
-const $header = $('<section>').attr('id', 'header').addClass('header');
-const $heading = $('<h1>').text('My Two Bits').css('color', 'limegreen').css('font-family', 'monospace');
 
-$header
-  .append($heading)
-  .css('background-color', 'Black')
-  .css('text-align', 'center')
-  .css('border-radius', '20px')
-  .css('padding-top', '30px')
-  .css('padding-bottom', '30px')
-  .prependTo($body);
 
 
 //user feed-  Allow the user to click on any username to see that user’s timeline.
-//streams.user (show only tweets by this user)
-function userFeed(user) {
+//allUsers = streams.user (show only tweets by this user)
+function userFeed(event) {
+  const user = $(this).text(); 
+  //empty content of user-feed
+  $('#user-feed').empty()
+ // exit button if I want it const $exitButton = $('<button/>').attr('id', 'GB-button').text('Back to Homefeed').css('color', 'pink').css('background-color', 'black')
+
+  const $userheading = $('<h1>').text(`${user}'s Two Bits`).css('color', 'limegreen').css('font-family', 'monospace');
+  $('#user-feed').append($userheading)
+  
   usedTweets.filter((tweet) => {
     if(tweet.user = user){ 
       const $tweet = $('<div></div>');
       const timeStamp = new Date
       
-      $tweet.html(`<a> @${tweet.user} </a> : ${tweet.message} <br/> <BLOCKQUOTE>  ... ${moment(timeStamp).fromNow()} </BLOCKQUOTE>`)
+      $tweet.html(`${tweet.user}: ${tweet.message} <br/> <sub>  ... ${moment(timeStamp).fromNow()} </sub>`)
     
-      const $userSidebar = $('<sidebar>').attr('id','user-feed').addClass('user-feed').appendTo('#header')
-      $userSidebar.toggle()
-      $tweet.appendTo('#user-feed')
+      
+      $tweet.appendTo('#user-feed').css("background-color",'mediumpurple').css('border-radius', '10px').css('padding-left', '7px').css('margin', '10px')
 
       return $tweet;
     }
   });
-
+  
+  $userSidebar.toggle(1000)
 }
 
 });
