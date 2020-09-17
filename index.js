@@ -102,6 +102,54 @@ $('<button/>')
   .css('border', 'dotted', 'white')
   .prependTo('#nav');
 
+  //create a div for all form stuffs
+const $tweetForm = $('<div>').attr('id', 'tweet-form-div').attr('class', 'form').css('padding-bottom', '10px').hide()
+
+//give tweetform a header
+$tweetForm  
+    .append($("<h3/>")
+    .attr('id', 'tweet-form-header')
+    .addClass('form')
+    .text("Give Us Your Two Bits"))
+    .prependTo($content);
+
+//create the actual form with inputs and labels and a submit button
+$('<form>')
+    .attr('id', 'tweet-form')
+    .attr('class', 'form-inline')
+    .append($("<label>")
+      .attr('for', 'username')
+      .text('username')
+      .css('padding', '10px'))
+    .append($('<input>')
+      .attr('id', 'username')
+      .attr('type', 'username')
+      .attr('placeholder', '@username')
+      .css('padding', '7px'))
+    .append($('<br/>'))
+    .append($('<br/>'))
+    .append($("<label>")
+      .attr('for', 'tweet')
+      .text('Give us your two bits!')
+      .css('padding', '10px'))
+    .append($('<input>')
+      .attr('id', 'urTwoBits')
+      .attr('type', 'tweet')
+      .attr('placeholder', 'Your two bits...')
+      .css('margin-right', '10px')
+      .css('padding', '10px')
+      .css('padding-right', '300px'))
+    .append($('<button/>')
+      .attr('type', 'submit')
+      .attr('id', 'submit-button')
+      .text('submit')
+      .css('color', 'aquamarine')
+      .css('background-color', 'black')
+      .css('padding', '10px'))
+      .appendTo($tweetForm)
+
+
+
 //function to show all tweets that are not shown yet
  function showNewTweets() {
   //filter tweets that already exist and create a div with formatted tweets on hold 
@@ -111,7 +159,7 @@ $('<button/>')
       const $tweet = $('<div></div>');
       const timeStamp = new Date
       
-      $tweet.html(`<div class = 'tweet-user' > @${tweet.user} </div> ${tweet.message} <br/> <sub>  ... ${moment(timeStamp).fromNow()} </sub>`)
+      $tweet.html(`<div class = 'tweet-user'> @${tweet.user} </div> ${tweet.message} <br/> <sub>  ... ${moment(timeStamp).fromNow()} </sub>`)
       var randomColors = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
 
       $tweet.prependTo('#newsfeed').css("background-color",randomColors).css('border-radius', '10px').css('padding-left', '7px').css('margin', '10px')
@@ -126,11 +174,16 @@ $('<button/>')
 $("#refresh-button").on('click', showNewTweets) 
 
 //button function to write your own tweet
-$("#twoBit-button").on('click', showNewTweets)
+$("#twoBit-button").on('click', ()=> $tweetForm.show(1000))
 
 //function to get userfeed
 $('.tweet-user').on('click', userFeed) 
 
+//function to submit tweet
+$('#submit-button').on('click', (event) =>{
+  displayTweet();
+  setTimeout(showNewTweets, 100);
+}) 
 
 
 
@@ -165,8 +218,17 @@ function userFeed(event) {
 
 });
 
-//form to submit your tweet
+//function to submit your tweet
+function displayTweet(){
+//two inputs are #username #urTwoBits
+//username make window.vistor
+event.preventDefault()
+$('#tweet-form-div').hide(1000)
+window.visitor = $('#username').val();
 
+//call writeTweet function with message from input
+  const bitsMessage = $('#urTwoBits').val();
 
+  return writeTweet(bitsMessage);
 
-
+}
