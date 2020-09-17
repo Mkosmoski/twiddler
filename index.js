@@ -15,12 +15,9 @@ $(document).ready(() => {
   const $tweets = streams.home.map((tweet) => {
     usedTweets.push(tweet)
     const $tweet = $('<div></div>');
-  //const date = moment().format('hh:mm:ss') 
-    const text = `@${tweet.user}: ${tweet.message}`
+    const timeStamp = new Date
+    const text = `@${tweet.user}: ${tweet.message} ...${moment(timeStamp).fromNow()}`
    
-    // const today = new Date()
-    // const postTime = today.getDay()+' at '+ today.getHours() + ':' + today.getMinutes();
-    // // Saturday, June 9th, 2007, 5:46:21 PM
     $tweet.text(text)
        
   
@@ -58,7 +55,8 @@ $('<button/>')
     if(!usedTweets.includes(tweet)){ 
       usedTweets.push(tweet);
       const $tweet = $('<div></div>');
-      const text = `@${tweet.user}: ${tweet.message}`
+      const timeStamp = new Date
+      const text = `@${tweet.user}: ${tweet.message} ...${moment(timeStamp).fromNow()}`
       
       $tweet.text(text)
       $tweet.prependTo('#newsfeed')
