@@ -8,8 +8,8 @@ const streams = {
   home: [],
   users: {
     smashBr0: [],
-    byteMy@ss: [],
-    retroG@ymer: [],
+    thisBytes: [],
+    retroGaymer: [],
     aBit0ff: [],
   },
 };
@@ -29,10 +29,10 @@ const randomElement = (array) => {
 };
 
 // Random tweet generator
-const opening = ['by the power of Greyskull', 'just', '', '', '', 'ask me how i', 'completely', 'nearly', 'once again', 'efficiently', 'last night i', 'the princess is captured', 'that evil sorcerer', 'the apothecary', 'a shady old man'];
-const verbs = ['slayed', 'cast', 'fought', 'smashed', 'poisoned', 'fused', 'experienced', 'navigated', 'aided', 'delighted', 'traveled', 'flew', 'scorched', 'adventured', 'reigned', 'explored', 'revealed', 'hailed', 'ignited'];
-const objects = ['my', 'your', 'the', 'the unknown', 'a', 'my', 'an entire', 'this', 'that', 'the', 'the magical', 'a new form of'];
-const nouns = ['princess warrior', 'Bowser', 'shadow cave', 'Town of Lunar', 'dragon', 'cloud kingdom', 'chocobo', 'treasure', 'way of life', 'Triforce', 'pokéball', 'bad decision', 'future', 'life', 'goblins', 'King Boo'];
+const opening = ['By the power of Greyskull, I', 'just', '', '', 'Poll time: has anyone', 'ask me how i', 'Completely', 'nearly', 'once again', 'Without a map or sword i', 'Last night when I was lost in a cave I', 'the princess is captured and', 'that evil sorcerer finally', 'the apothecary', 'A cloaked man in the shadows'];
+const verbs = ['slayed', 'cast', 'fought', 'smashed', 'poisoned', 'fused', 'experienced', 'navigated', 'aided', 'delighted', 'traveled', 'conquered', 'scorched', 'adventured', 'reigned', 'explored', 'revealed', 'hailed', 'ignited'];
+const objects = ['my', 'your', 'the', 'the unknown', 'a', 'my', 'an invincible', 'a mysterious', 'this', 'that', 'the', 'the magical', 'a new form of'];
+const nouns = ['princess warrior', 'Bowser did it again!!!?', 'shadow cave?', 'Town of Lunar <3', 'dragon', 'cloud kingdom', 'chocobo ride through the country', 'treasure', 'way of life...', 'Triforce', 'pokéball', 'bad decision', 'future', 'life', 'goblins!!', 'King B00'];
 const tags = ['#wizardlyfe', '#chocoboproblems', '#mushroomkingdom', '#bytesized', '#my2bits', '#smashbro', '#levelUp', '#pwned', '#NESlife', '#magic', '#thatSquirtleTho', '', '', ''];
 
 const randomMessage = () => {
