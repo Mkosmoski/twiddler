@@ -19,7 +19,7 @@ $(document).ready(() => {
     const timeStamp = new Date
     
     
-    $tweet.html(`<div class = 'tweet-user' > @${tweet.user} </div> ${tweet.message} <br/> <sub>  ... ${moment(timeStamp).fromNow()} </sub>`)
+    $tweet.html(`<div class = 'tweet-user' > @${tweet.user} </div> ${tweet.message} <br/> <sub>  ... ${moment(timeStamp).fromNow()} </sub>`).css('font-family', 'monospace')
     //make the tweets fun! - random colors and css
     const randomColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
     $tweet.css("background-color",randomColor).css('border-radius', '10px').css('padding-left', '7px').css('margin', '10px')
@@ -41,23 +41,27 @@ $newsfeed
   .css('padding-top', '20px')
   .css('padding-left', '20px')
   .css('padding-right', '20px')
-  .css('background-color', 'silver')
+  .css('background', 'rgba(224, 187, 228, .9)')
   .css('border-radius', '20px')
   .css('border', 'dotted')
+  .css('margin', '40px')
   .appendTo($content)
 
+
 //header
-const $header = $('<section>').attr('id', 'header').addClass('header');
-const $heading = $('<h1>').text('My Two Bits').css('color', 'limegreen').css('font-family', 'monospace');
+
+
+const $header = $('<section>').attr('id', 'header').addClass('header').append('<div id = header-image>');
+const $heading = $('<div id =heading>').append('<h1>').text('my TWO bits').css('color', 'pink').css('font-family', 'mario_kart_dsregular').css('font-size', '100px').css('background', 'rgba(0, 0, 128, .3)').css('padding', '10px');
+
 
 $header
   .append($heading)
-  .css('background-color', 'Black')
   .css('text-align', 'center')
   .css('border-radius', '20px')
-  .css('padding-top', '20px')
-  .css('padding-bottom', '20px')
+  .css('align-text', 'top')
   .prependTo($body);
+  
 
   //sidebar for user tweets(hidden when not looking at specific userfeeds)
   const $userSidebar = $('<div>').attr('id','user-feed').addClass('user-feed')
@@ -65,9 +69,9 @@ $header
 
 $userSidebar
   .prependTo('#all-content')
-  .css('background-color', 'black')
+  .css('background-color', 'darkslateblue')
   .css('height', '100%') /* Full-height: remove this if you want "auto" height */
-  .css('width', "300px") 
+  .css('width', "400px") 
   .css("position", "fixed") 
   .css('border-radius', '20px')
   .css('border', 'transparent')
@@ -90,6 +94,8 @@ $('<button/>')
   .text('Refresh Your Feed')
   .css('color', 'aquamarine')
   .css('background-color', 'black')
+  .css('padding', '20px')
+  .css('margin', '20px')
   .prependTo('#nav');
 
 
@@ -100,6 +106,8 @@ $('<button/>')
   .css('color', 'pink')
   .css('background-color', 'black')
   .css('border', 'dotted', 'white')
+  .css('padding', '20px')
+  .css('margin', '20px')
   .prependTo('#nav');
 
   //create a div for all form stuffs
@@ -109,18 +117,27 @@ const $tweetForm = $('<div>').attr('id', 'tweet-form-div').attr('class', 'form')
 $tweetForm  
     .append($("<h3/>")
     .attr('id', 'tweet-form-header')
+    .css('background-color', 'thistle')
     .addClass('form')
-    .text("Give Us Your Two Bits"))
+    .css('padding', '20px')
+    .css('margin-left', '50px')
+    .css('margin-right', '50px')
+    .text("Give Us Your Two Bits")
+    .css('text-align', 'center')
+    .css('font-family', 'monospace'))
     .prependTo($content);
 
 //create the actual form with inputs and labels and a submit button
 $('<form>')
     .attr('id', 'tweet-form')
     .attr('class', 'form-inline')
+    .css('font-family', 'monospace')
+    .css('margin-left', '150px')
     .append($("<label>")
       .attr('for', 'username')
       .text('username')
-      .css('padding', '10px'))
+      .css('background-color', 'thistle')
+      .css('padding', '15px'))
     .append($('<input>')
       .attr('id', 'username')
       .attr('type', 'text')
@@ -131,7 +148,8 @@ $('<form>')
     .append($("<label>")
       .attr('for', 'tweet')
       .text('Give us your two bits!')
-      .css('padding', '10px'))
+      .css('background-color', 'thistle')
+      .css('padding', '15px'))
     .append($('<input>')
       .attr('id', 'urTwoBits')
       .attr('type', 'text')
@@ -159,7 +177,7 @@ $('<form>')
       const $tweet = $('<div></div>');
       const timeStamp = new Date
       
-      $tweet.html(`<div class = 'tweet-user'> @${tweet.user} </div> ${tweet.message} <br/> <sub>  ... ${moment(timeStamp).fromNow()} </sub>`)
+      $tweet.html(`<div class = 'tweet-user'> @${tweet.user} </div> ${tweet.message} <br/> <sub>  ... ${moment(timeStamp).fromNow()} </sub>`).css('font-family', 'monospace')
       var randomColors = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
 
       $tweet.prependTo('#newsfeed').css("background-color",randomColors).css('border-radius', '10px').css('padding-left', '7px').css('margin', '10px')
@@ -167,7 +185,8 @@ $('<form>')
       return $tweet;
     }
   });
-
+//function to get userfeed
+$('.tweet-user').on('click', userFeed) 
 }
 
 //Button function to refresh
@@ -194,16 +213,16 @@ function userFeed(event) {
   //empty content of user-feed
   $('#user-feed').empty()
   
-  const $exitButton = $('<button/>').attr('id', 'GB-button').text('Back to Homefeed').css('color', 'pink').css('background-color', 'black')
-  const $userheading = $('<h1>').text(`${user}'s Two Bits`).css('color', 'limegreen').css('font-family', 'monospace').css('padding', '7px').css('text-align', 'center');
-  $('#user-feed').append($userheading).append($exitButton)
+  const $exitButton = $('<button/>').attr('id', 'GB-button').text('Back to Homefeed').css('color', 'lime').css('background-color', 'black')
+  const $userheading = $('<h1>').html(`${user}'s <br/> Two Bits`).css('color', 'limegreen').css('font-family', 'mario_kart_dsregular').css('padding', '7px').css('text-align', 'center').append('<br>').append('<br>').append($exitButton);
+  $('#user-feed').append($userheading)
   
   usedTweets.filter((tweet) => {
     if(tweet.user = user){ 
       const $tweet = $('<div></div>');
       const timeStamp = new Date
       
-      $tweet.html(`${tweet.user}: ${tweet.message} <br/> <sub>  ... ${moment(timeStamp).fromNow()} </sub>`)
+      $tweet.html(`${tweet.user}: ${tweet.message} <br/> <sub>  ... ${moment(timeStamp).fromNow()} </sub>`).css('font-family', 'monospace')
     
       
       $tweet.appendTo('#user-feed').css("background-color",'mediumpurple').css('border-radius', '10px').css('padding-left', '7px').css('margin', '10px')
