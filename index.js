@@ -123,7 +123,7 @@ $('<form>')
       .css('padding', '10px'))
     .append($('<input>')
       .attr('id', 'username')
-      .attr('type', 'username')
+      .attr('type', 'text')
       .attr('placeholder', '@username')
       .css('padding', '7px'))
     .append($('<br/>'))
@@ -134,7 +134,7 @@ $('<form>')
       .css('padding', '10px'))
     .append($('<input>')
       .attr('id', 'urTwoBits')
-      .attr('type', 'tweet')
+      .attr('type', 'text')
       .attr('placeholder', 'Your two bits...')
       .css('margin-right', '10px')
       .css('padding', '10px')
@@ -223,12 +223,11 @@ function displayTweet(){
 //two inputs are #username #urTwoBits
 //username make window.vistor
 event.preventDefault()
-$('#tweet-form-div').hide(1000)
+$('#tweet-form-div').hide(500)
 window.visitor = $('#username').val();
 
 //call writeTweet function with message from input
   const bitsMessage = $('#urTwoBits').val();
-
-  return writeTweet(bitsMessage);
-
+  writeTweet(bitsMessage);
+  $("input").val("")
 }
