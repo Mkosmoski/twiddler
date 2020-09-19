@@ -15,20 +15,35 @@ $(document).ready(() => {
 //tweets to first map and put on the page
   const $tweets = streams.home.map((tweet) => {
     usedTweets.push(tweet)
-    const $tweet = $('<div></div>').attr('class', 'full-tweet');
+    const $tweet = $('<div></div>');
     const timeStamp = new Date
     
-    
-    $tweet.html(`<div class = 'tweet-user' > @${tweet.user} </div> ${tweet.message} <br/> <sub>  ... ${moment(timeStamp).fromNow()} </sub>`).css('font-family', 'monospace')
+    //search for hashtag
+    for(let tag of tags){
+      if(tag.length){
+      if(tweet.message.includes(tag)){
+        let text = tweet.message
+        const textArray = text.split(' ')
+    $tweet.html(`<div class = 'tweet-user' > @${tweet.user} </div>  ${textArray.slice(0,textArray.length-2).join(' ')} <div class='hashtag'><u> ${textArray[textArray.length-1]} </u></div> <br/> <sub>  ... ${moment(timeStamp).fromNow()} </sub>`).css('font-family', 'monospace')
     //make the tweets fun! - random colors and css
     const randomColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
-    $tweet.css("background-color",randomColor).css('border-radius', '10px').css('padding-left', '7px').css('margin', '10px')
-   
+     $tweet.css("background-color",randomColor).css('border-radius', '10px').css('padding-left', '7px').css('margin', '10px')
+     return $tweet;
+      } 
+    }else{
+      $tweet.html(`<div class = 'tweet-user' > @${tweet.user} </div> ${tweet.message} <br/> <sub>  ... ${moment(timeStamp).fromNow()} </sub>`).css('font-family', 'monospace')
+      //make the tweets fun! - random colors and css
+      const randomColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+      $tweet.css("background-color",randomColor).css('border-radius', '10px').css('padding-left', '7px').css('margin', '10px')
+    
+    }
+    }
+
     return $tweet
   
   });
  
-   // $('.tweet-user').on('click', (event)=> console.log('hi user')) 
+
  
 //create a main section with the id section-main order newsfeed and first tweets
 const $content = $('<section>').attr('id', 'all-content').css('margin', '7px')
@@ -63,23 +78,6 @@ $header
   .prependTo($body);
   
 
-  //sidebar for user tweets(hidden when not looking at specific userfeeds)
-  const $userSidebar = $('<div>').attr('id','user-feed').addClass('user-feed')
-
-
-$userSidebar
-  .prependTo('#all-content')
-  .css('background-color', 'darkslateblue')
-  .css('height', '100%') /* Full-height: remove this if you want "auto" height */
-  .css('width', "400px") 
-  .css("position", "fixed") 
-  .css('border-radius', '20px')
-  .css('border', 'transparent')
-  .css("right", '0')
-  .hide()
-
-// Show the user new tweets somehow.- create a button that displays new tweets.
-//attach the tweets to the main section
 
 //nav bar
 $('<section>')
@@ -109,6 +107,23 @@ $('<button/>')
   .css('padding', '20px')
   .css('margin', '20px')
   .prependTo('#nav');
+
+    //sidebar for user tweets(hidden when not looking at specific userfeeds)
+    const $userSidebar = $('<div>').attr('id','user-feed').addClass('user-feed')
+
+
+    $userSidebar
+      .appendTo('#nav')
+      .css('background-color', 'darkslateblue')
+      .css('height', '100%') /* Full-height: remove this if you want "auto" height */
+      .css('width', "400px") 
+      .css("position", "fixed") 
+      .css('border-radius', '20px')
+      .css('border', 'transparent')
+      .css("right", '0')
+      .hide()
+
+    
 
   //create a div for all form stuffs
 const $tweetForm = $('<div>').attr('id', 'tweet-form-div').attr('class', 'form').css('padding-bottom', '10px').hide()
@@ -174,20 +189,72 @@ $('<form>')
     allTweets.filter((tweet) => {
     if(!usedTweets.includes(tweet)){ 
       usedTweets.push(tweet);
-      const $tweet = $('<div></div>');
+      const $tweet = $('<div></div>').attr('class', 'full-tweet');
       const timeStamp = new Date
-      
-      $tweet.html(`<div class = 'tweet-user'> @${tweet.user} </div> ${tweet.message} <br/> <sub>  ... ${moment(timeStamp).fromNow()} </sub>`).css('font-family', 'monospace')
-      var randomColors = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+   
+      //search for hashtag
+   for(let tag of tags){
+    if(tag.length){
+    if(tweet.message.includes(tag)){
+      let text = tweet.message
+      const textArray = text.split(' ')
+  $tweet.html(`<div class = 'tweet-user' > @${tweet.user} </div>  ${textArray.slice(0,textArray.length-2).join(' ')} <div class='hashtag'><u> ${textArray[textArray.length-1]} </u></div> <br/> <sub>  ... ${moment(timeStamp).fromNow()} </sub>`).css('font-family', 'monospace')
+   //make the tweets fun! - random colors and css
+  const randomColors = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
 
-      $tweet.prependTo('#newsfeed').css("background-color",randomColors).css('border-radius', '10px').css('padding-left', '7px').css('margin', '10px')
+   $tweet.prependTo('#newsfeed').css("background-color",randomColors).css('border-radius', '10px').css('padding-left', '7px').css('margin', '10px')
+   return $tweet;
+    } 
+  }else{
+    $tweet.html(`<div class = 'tweet-user' > @${tweet.user} </div> ${tweet.message} <br/> <sub>  ... ${moment(timeStamp).fromNow()} </sub>`).css('font-family', 'monospace')
+    //make the tweets fun! - random colors and css
+    const randomColors = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+    $tweet.prependTo('#newsfeed').css("background-color",randomColors).css('border-radius', '10px').css('padding-left', '7px').css('margin', '10px')
 
-      return $tweet;
+  }
+  }
+
+  return $tweet
     }
   });
 //function to get userfeed
 $('.tweet-user').on('click', userFeed) 
+
+//function to get hashtag feed
+$('.hashtag').on('click', hashTagFeed) 
 }
+
+//function for hashtag feed
+function hashTagFeed (event) {
+  const tag = $(this).text().trim()
+  //empty content of user-feed
+  $('#user-feed').empty()
+  //create button and heading for #feed
+  const $exitButton = $('<button/>').attr('id', 'GB-button').text('Back to Homefeed').css('color', 'lime').css('background-color', 'black')
+  const $userheading = $('<h1>').html(`Two bits 'bout <br/> ${tag}`).css('color', 'limegreen').css('font-family', 'mario_kart_dsregular').css('padding', '7px').css('text-align', 'center').append('<br>').append('<br>').append($exitButton);
+  $('#user-feed').append($userheading)
+  
+  usedTweets.map(tweet => {
+    const message = tweet.message
+    message.split(" ")
+    if(message.includes(tag)){ 
+      
+      const $tweet = $('<div></div>');
+      const timeStamp = new Date
+      
+      $tweet.html(`${tweet.user} : ${tweet.message} <br/> <sub>  ... ${moment(timeStamp).fromNow()} </sub>`).css('font-family', 'monospace')
+      $tweet.appendTo('#user-feed').css("background-color",'mediumpurple').css('border-radius', '10px').css('padding-left', '7px').css('margin', '10px')
+
+      return $tweet;
+    }
+    return;
+  });
+
+  $('#user-feed').toggle(1000)
+  $exitButton.on('click', ()=> $userSidebar.toggle(1000))
+}
+
+
 
 //Button function to refresh
 $("#refresh-button").on('click', showNewTweets) 
@@ -204,7 +271,8 @@ $('#submit-button').on('click', (event) =>{
   setTimeout(showNewTweets, 100);
 }) 
 
-
+//function to get hashtag feed
+$('.hashtag').on('click', hashTagFeed) 
 
 //user feed-  Allow the user to click on any username to see that user’s timeline.
 //allUsers = streams.user (show only tweets by this user)
@@ -223,8 +291,7 @@ function userFeed(event) {
       const timeStamp = new Date
       
       $tweet.html(`${tweet.user}: ${tweet.message} <br/> <sub>  ... ${moment(timeStamp).fromNow()} </sub>`).css('font-family', 'monospace')
-    
-      
+
       $tweet.appendTo('#user-feed').css("background-color",'mediumpurple').css('border-radius', '10px').css('padding-left', '7px').css('margin', '10px')
 
       return $tweet;
@@ -234,8 +301,8 @@ function userFeed(event) {
   $userSidebar.toggle(1000)
   $exitButton.on('click', ()=> $userSidebar.toggle(1000))
 }
-
 });
+
 
 //function to submit your tweet
 function displayTweet(){
@@ -250,3 +317,5 @@ window.visitor = $('#username').val();
   writeTweet(bitsMessage);
   $("input").val("")
 }
+
+
